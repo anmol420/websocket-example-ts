@@ -1,12 +1,12 @@
 import { connectDB } from "./db/db";
 import appFetch from "./utils/appFetch";
-import type { WSData } from "./utils/wsData.types";
-import { websocket } from "./websocket";
+import { websocket, engine } from "./socket/socket";
 
 connectDB()
   .then(() => {
-    Bun.serve<WSData>({
-      fetch: appFetch,
+    Bun.serve({
+      fetch: appFetch(engine),
+      idleTimeout: 30,
       port: 3000,
       websocket: websocket,
     });
