@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 import { Server as Engine } from "@socket.io/bun-engine";
+import { socketMiddleware } from "../middlewares/socket.middleware";
 
 const io = new Server({
   pingInterval: 25000,
@@ -8,6 +9,8 @@ const io = new Server({
 
 const engine = new Engine();
 io.bind(engine);
+
+io.use(socketMiddleware);
 
 io.on("connection", socket => {
   console.log("Socket connected:", socket.id);
