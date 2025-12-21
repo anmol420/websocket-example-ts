@@ -1,6 +1,7 @@
 import { Context } from "hono";
 import { sign } from "hono/jwt";
 import { User } from "../models/user.model";
+import { Room } from "../models/room.model";
 
 class UserController {
   async createUser(c: Context) {
@@ -25,6 +26,9 @@ class UserController {
         password: hashedPassword,
       });
       await newUser.save();
+      await Room.findByIdAndUpdate(Bun.env.GLOBAL_ROOM_ID, {
+        $push: { participants: newUser._id },
+      });
       return c.json({ message: 'User created successfully', userId: newUser }, 201);
     } catch (error) { 
       return c.json({ message: 'Error creating user', error }, 500);
