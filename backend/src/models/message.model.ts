@@ -1,14 +1,17 @@
 import { Types, Schema, model } from "mongoose";
 
 interface IMessage {
-  sender: string;
+  sender: Types.ObjectId;
   chatRoom: Types.ObjectId;
   content: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const messageSchema = new Schema<IMessage>({
   sender: { 
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "user",
     required: true,
   },
   chatRoom: { 

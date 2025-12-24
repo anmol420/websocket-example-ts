@@ -4,6 +4,8 @@ interface IRoom {
   name: string;
   participants: Types.ObjectId[];
   messages: Types.ObjectId[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const roomSchema = new Schema<IRoom>({
